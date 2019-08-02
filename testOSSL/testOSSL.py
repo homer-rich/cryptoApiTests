@@ -1,10 +1,10 @@
-import sys, os.path
-from os import walk
+from sys import exc_info
+from os import walk, path
 
 from OpenSSL import crypto
 
-certs_path = os.path.realpath('../certs/')
-crls_path = os.path.realpath('../crls/')
+certs_path = path.realpath('../certs/')
+crls_path = path.realpath('../crls/')
 
 def validIndex(x):
     try:
@@ -85,9 +85,10 @@ storeContext = crypto.X509StoreContext(store, cert2)
 
 try:
     storeContext.verify_certificate()
+    print('\nValid cert and CRL!\n')
 except:
-    err = sys.exc_info()
-    print ('Not Valid; \nError: {}', err)
+    err = exc_info()
+    print('Not Valid; \nError: {}', err)
 
 # Pretty print of certificate
 #print (crypto.dump_certificate(crypto.FILETYPE_TEXT, cert2).decode('utf-8'))
